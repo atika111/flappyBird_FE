@@ -1,0 +1,30 @@
+
+.box-game {
+    background-image: url(background.png);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+}
+
+.game-container {
+  text-align: center; 
+}
+
+.game-image {
+  max-width: 100%;
+  max-height: 80vh; 
+}
+
+.score-table{
+    font-family: Arial, sans-serif;
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+}
