@@ -5,10 +5,10 @@ const HomePage = () => {
 
 
   return (
-    <>
+    <div className="main-box">
      <div className="home-page">
       <header>
-        <h1>Flappy Bird Mania</h1>
+        <h2>Flappy Bird Mania</h2>
       </header>
       <main>
       <section className="welcome">
@@ -43,7 +43,7 @@ const HomePage = () => {
       </footer>
     </div>
   
-    </>
+    </div>
   )
 }
 

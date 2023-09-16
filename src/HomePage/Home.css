@@ -2,13 +2,14 @@
     padding: 0;
     margin: 0;
 }
-html, body {
+html {
     height: 100%;
     margin: 0; 
     padding: 0; 
   }
   
   body {
+    height: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -17,11 +18,15 @@ html, body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    height: 100%;
+}
+
+.main-box{
+  background-color: #edf4fd;
+  height: 113%;
 }
 
 header {
-    background-color: #000;
+    background-color: #BF9649;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -29,6 +34,11 @@ header {
 
 h1 {
     font-size: 2rem;
+    color: #757a03;
+}
+
+h2{
+  font-size: 2rem;
 }
 
 main {
@@ -54,11 +64,11 @@ main {
   }
   
   .login{
-    border: 5px solid black;
+    border: 5px solid #757a03;
   }
 
   .gameplay{
-    border: 5px solid black;
+    border: 5px solid #757a03;
   }
 
   .instructions {
@@ -88,7 +98,7 @@ main {
     
     bottom: 15%;
     right: 35%;
-    background-color: black;
+    background-color: #757a03;
     border-radius: 8px;
     border: 7px solid transparent;
     padding: 0.3em 1em;
@@ -103,7 +113,7 @@ main {
 
 
 footer {
-    background-color: #000;
+    background-color: #BF9649;
     color: #fff;
     text-align: center;
     padding: 10px 0;
@@ -156,5 +166,5 @@ footer {
   }
   
   tr:hover {
-    background-color: #ddd;
+    background-color: #BF9649;
   }

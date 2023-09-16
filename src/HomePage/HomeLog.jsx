@@ -17,10 +17,11 @@ const HomeLog = () => {
 
 
   return (
-    <>
+    <div className="main-box">
       <div className="home-page">
+        
       <header>
-        <h1>Flappy Bird Mania</h1>
+        <h2>Flappy Bird Mania</h2>
       </header>
       <main>
       <section className="welcome">
@@ -50,9 +51,6 @@ const HomeLog = () => {
   <Link className="log" to="/game">Lets Start!</Link>
   </section>
 
-  <section className="game-preview">
-   
-  </section>
       </main>
       <footer>
         <p>&copy; 2023 Flappy Bird Mania</p>
@@ -60,8 +58,9 @@ const HomeLog = () => {
          
         </div>
       </footer>
+      </div>
+    
     </div>
-    </>
   )
 }
 

@@ -1,6 +1,6 @@
 .navbar {
-    background-color: black;
-    color: white;
+  background-color: #0367A6;
+  color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,7 +17,12 @@
   .navbar-menu {
     list-style-type: none;
     display: flex;
-  }
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+}
+  
   
   .navbar-menu li {
     margin-right: 20px;
@@ -28,7 +33,7 @@
     color: white;
   }
   
-  /* Style the links on hover if needed */
+ 
   .navbar-menu a:hover {
-    color: gray;
+    color: #757a03;
   }
