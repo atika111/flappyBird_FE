@@ -1,45 +1,33 @@
-import "./Game.css"
-import React from 'react'
+import { useEffect, useRef, useState } from 'react';
+import FlappyBirdGame from '../PhaserGame';
 
 const Game = () => {
+  const gameContainerRef = useRef(null);
+  const [score, setScore] = useState(0);
 
-    const data = [
-        { user: 'User 1', score: 85 },
-        { user: 'User 2', score: 90 },
-        { user: 'User 3', score: 78 },
-        { user: 'User 4', score: 95 },
-        { user: 'User 5', score: 88 },
-      ];
+  useEffect(() => {
+    new FlappyBirdGame('game');
 
+    gameContainerRef.current.focus();
 
-     
+    const scoreUpdateInterval = setInterval(() => {
+      setScore(window.gameScore);
+    }, 100);
+
+    return () => clearInterval(scoreUpdateInterval);
+  }, []);
+
   return (
-    <div className="box-game">
-        <h1>Lets Play</h1>
-     <div className="game-container">
-      <img src="flappy.png" alt="Game Image" className="game-image" />
-    </div>
-    <h1>Top scores</h1>
-    <section className="score-table">
-      <table>
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.user}</td>
-              <td>{item.score}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
-    </div>
-  )
-}
+    <>
+      <h3>Score: {score}, press R to restart the game</h3>
+      <div
+        id='game'
+        ref={gameContainerRef}
+        tabIndex={0}
+        style={{ width: '960px', height: '540px' }}
+      />
+    </>
+  );
+};
 
-export default Game
+export default Game;
