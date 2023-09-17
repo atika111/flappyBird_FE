@@ -1,27 +1,63 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 
 
 const Signup = ({ openSignup, onClose }) => {
 
-  
-const [email, setEmail] = useState("")
-const [password, setPassword] = useState("")
-const [confirmPass, setConfirmPass] = useState("")
-const [name, setName] = useState("")
-const [lastname, setLastName] = useState("")
-const [nickName, setNickName] = useState("")
+  const [error, setError] = useState([])
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [repPassword, setRepPassword] = useState("")
+  const [firstName, setName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [nickname, setNickName] = useState("")
+
+  console.log(error)
+
+  const handleSignUser = async (e) => {
+    e.preventDefault();
+
+    const newUser = {
+      email: email,
+      password: password,
+      repPassword: repPassword,
+      firstName: firstName,
+      lastName: lastName,
+      nickname: nickname,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:8080/auth/signup", newUser);
+      console.log(response.data);
+      setEmail("");
+      setPassword("");
+      setRepPassword("");
+      setName("");
+      setLastName("");
+      setNickName("");
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data);
+      } else {
+        console.log(error);
+      }
+    }
+
+  }
+
+
 
 
 
   return (
     <>
-     <Dialog open={openSignup} onClose={onClose}>
+      <Dialog open={openSignup} onClose={onClose}>
         <DialogTitle>SignUp</DialogTitle>
         <DialogContent>
           <TextField
@@ -31,57 +67,64 @@ const [nickName, setNickName] = useState("")
             type="email"
             fullWidth
             variant="standard"
-            onChange={(e) => setEmail(e.target.value)} required
+            onChange={(e) => setEmail(e.target.value)}
+            required  
           />
           <TextField
             autoFocus
             margin="dense"
             label="Password"
-            type="email"
+            type="password"  
             fullWidth
             variant="standard"
-            onChange={(e) => setPassword(e.target.value)} required
+            onChange={(e) => setPassword(e.target.value)}
+            required  
           />
           <TextField
             autoFocus
             margin="dense"
-            label="Confim password"
-            type="email"
+            label="Confirm password"
+            type="password"  
             fullWidth
             variant="standard"
-            onChange={(e) => setConfirmPass(e.target.value)} required
+            onChange={(e) => setRepPassword(e.target.value)}
+            required  
           />
+           {error && <div className="error">{error}</div>}
           <TextField
             autoFocus
             margin="dense"
             label="Name"
-            type="email"
+            type="text"  
             fullWidth
             variant="standard"
-            onChange={(e) => setName(e.target.value)} required
+            onChange={(e) => setName(e.target.value)}
+            required 
           />
           <TextField
             autoFocus
             margin="dense"
             label="Last name"
-            type="email"
+            type="text" 
             fullWidth
             variant="standard"
-            onChange={(e) => setLastName(e.target.value)} required
+            onChange={(e) => setLastName(e.target.value)}
+            required  
           />
           <TextField
             autoFocus
             margin="dense"
-            label="Phone number"
-            type="email"
+            label="Nick name"
+            type="text"  
             fullWidth
             variant="standard"
-            onChange={(e) => setNickName(e.target.value)} required
+            onChange={(e) => setNickName(e.target.value)}
+            required  
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={console.log()} onClose={onClose}>Sign Up</Button>
+          <Button onClick={handleSignUser} >Sign Up</Button>
         </DialogActions>
       </Dialog>
     </>

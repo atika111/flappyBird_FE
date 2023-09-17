@@ -168,3 +168,9 @@ footer {
   tr:hover {
     background-color: #BF9649;
   }
+
+  .error{
+    color:red;
+    background-color: #f5cdcd;
+    width: 66%;
+  }
