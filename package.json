@@ -14,7 +14,10 @@
     "@mui/material": "^5.14.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
+    "react-router-dom": "^6.16.0",
+    "regenerator-runtime": "^0.14.0",
+    "bitecs": "^0.3.40",
+    "phaser": "^3.60.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
