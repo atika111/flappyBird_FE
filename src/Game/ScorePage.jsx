@@ -1,4 +1,4 @@
-const Dashboard = () => {
+const scorePage = () => {
   const data = [
     { user: 'User 1', score: 85 },
     { user: 'User 2', score: 90 },
@@ -52,4 +52,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default scorePage;

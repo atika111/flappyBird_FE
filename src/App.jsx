@@ -3,7 +3,7 @@ import HomePage from './HomePage/HomePage'
 import Navbar from './Navbar/Navbar'
 import HomeLog from './HomePage/HomeLog'
 import Game from './Game/Game'
-import Dashboard from './Game/Dashboard'
+import ScorePage from './Game/ScorePage'
 import MyScoreProvider from './Context/MyScoreProvider'
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
     <Route path={"/"} element={<HomePage/>}/>
     <Route path={"/homeLog"} element={<HomeLog/>}/>
     <Route path={"/game"} element={<Game/>}/>
-    <Route path={"/dashboard"} element={<Dashboard/>}/>
+    <Route path={"/scorePage"} element={<ScorePage/>}/>
     </Routes> 
     </MyScoreProvider>
     </>
