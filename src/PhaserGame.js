@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 window.gameScore = 0;
 
-const SERVER_URL = 'http://localhost:8080';
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const _GRAVITY = 800;
 const _MAX_UPWARDS_VELOCITY = -300;
 const _UPWARDS_ACCELERATION = -450;
@@ -129,6 +129,8 @@ class FlappyBirdGame {
     this._scoreText = null;
     this._gameOverText = null;
     this._pipes = [];
+
+    this._eventEmitter = new Phaser.Events.EventEmitter();
   }
 
   _Destroy() {
@@ -297,6 +299,8 @@ class FlappyBirdGame {
       style
     );
     this._gameOver = true;
+
+    this._eventEmitter.emit('gameover');
   }
 
   _DrawScore() {
@@ -315,6 +319,14 @@ class FlappyBirdGame {
     };
 
     this._scoreText = this._scene.add.text(0, 0, text, style);
+  }
+
+  getFinalScore() {
+    return this._score;
+  }
+
+  onGameOver(callback) {
+    this._eventEmitter.on('gameover', callback);
   }
 }
 

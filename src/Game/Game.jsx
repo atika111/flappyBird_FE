@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import FlappyBirdGame from '../PhaserGame';
 
 const Game = () => {
   const gameContainerRef = useRef(null);
   const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  let game;
 
   useEffect(() => {
-    new FlappyBirdGame('game');
+    game = new FlappyBirdGame('game');
 
     gameContainerRef.current.focus();
 
@@ -14,8 +17,35 @@ const Game = () => {
       setScore(window.gameScore);
     }, 100);
 
-    return () => clearInterval(scoreUpdateInterval);
+    game.onGameOver(() => {
+      setGameOver(true);
+      const finalScore = game?.getFinalScore();
+      onGameOver(finalScore);
+    });
+
+    return () => {
+      clearInterval(scoreUpdateInterval);
+    };
   }, []);
+
+  const onGameOver = (score) => {
+    if (typeof score !== 'undefined')
+      axios
+        .post(import.meta.env.VITE_SERVER_URL + '/scores', {
+          score,
+          date: new Date(),
+          email: 't@t.com',
+          nickname: '555',
+        })
+        .then((response) => {
+          // Handle the response from the server
+          console.log('Request sent:', response.data);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error('Error sending request:', error);
+        });
+  };
 
   return (
     <>
