@@ -33,7 +33,7 @@ const Signup = ({ openSignup, onClose }) => {
     };
 
     try {
-      const response = await axios.post("http://localhost:8080/auth/signup", newUser);
+      const response = await axios.post(import.meta.env.VITE_SERVER_URL + "/auth/signup", newUser);
       console.log(response.data);
       setEmail("");
       setPassword("");
@@ -124,7 +124,7 @@ const Signup = ({ openSignup, onClose }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSignUser} >Sign Up</Button>
+          <Button onClick={handleSignUser} onClose={onClose}>Sign Up</Button>
         </DialogActions>
       </Dialog>
     </>
