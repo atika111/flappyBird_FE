@@ -8,21 +8,22 @@ import TextField from '@mui/material/TextField';
 import Signup from './Signup'; 
 import { AuthContext } from '../Context/MyAuthProvider';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { ScoreContext } from '../Context/MyScoreProvider';
 
 const Login = () => {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSigninOpen, setSigninOpen] = useState(false);
-  const {setUser, user} = useContext(AuthContext)
+  const {setUser} = useContext(AuthContext)
+  const {setScore} = useContext(ScoreContext)
   const handleLogUser = async () => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, { email, password });
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, { email, password } ,{withCredentials: true});
       const data = res.data;
       console.log(data);
-      Cookies.set('token', data.token, { expires: 7 });
       setUser(data);
+      setScore(data)
     } catch (error) {
     }
   };

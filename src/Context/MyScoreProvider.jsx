@@ -1,21 +1,20 @@
 import axios from 'axios';
-import React, { createContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { createContext, useContext, useState } from 'react';
+import { AuthContext } from './MyAuthProvider';
+
 
 const ScoreContext = createContext();
 
 const MyScoreProvider = ({ children }) => {
   const [score, setScore] = useState([]);
-  const [user, setUser] = useState("")
-  const {id} = useParams()
-
-console.log(user);
+  const {setUser} = useContext(AuthContext)
 
   const fetchScore = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/scores`,{withCredentials: true});
       const data = res.data;
       setScore(data);
+      setUser(data)
     } catch (err) {
       console.error(err);
     }
