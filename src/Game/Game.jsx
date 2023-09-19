@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import axios from 'axios';
 import FlappyBirdGame from '../PhaserGame';
+import { AuthContext } from '../Context/MyAuthProvider';
 
 const Game = () => {
   const gameContainerRef = useRef(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const { user } = useContext(AuthContext);
   let game;
 
   useEffect(() => {
@@ -31,12 +33,16 @@ const Game = () => {
   const onGameOver = (score) => {
     if (typeof score !== 'undefined')
       axios
-        .post(import.meta.env.VITE_SERVER_URL + '/scores', {
-          score,
-          date: new Date(),
-          email: 't@t.com',
-          nickname: '555',
-        })
+        .post(
+          import.meta.env.VITE_SERVER_URL + '/scores',
+          {
+            score,
+            date: new Date(),
+            email: user.email,
+            nickname: user.nickname,
+          },
+          { withCredentials: true }
+        )
         .then((response) => {
           // Handle the response from the server
           console.log('Request sent:', response.data);
