@@ -6,6 +6,7 @@ import Game from './Game/Game'
 import ScorePage from './Game/ScorePage'
 import MyScoreProvider from './Context/MyScoreProvider'
 import MyAuthProvider from './Context/MyAuthProvider'
+import Dashboard from '../Admin/Dashboard'
 
 function App() {
  
@@ -20,6 +21,7 @@ function App() {
     <Route path={"/homeLog"} element={<HomeLog/>}/>
     <Route path={"/game"} element={<Game/>}/>
     <Route path={"/scorePage"} element={<ScorePage/>}/>
+    <Route path={"/dashboard"} element={<Dashboard/>}/>
     </Routes> 
     </MyScoreProvider>
     </MyAuthProvider>

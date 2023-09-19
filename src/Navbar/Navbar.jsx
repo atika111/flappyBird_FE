@@ -13,6 +13,7 @@ const Navbar = () => {
             <li><Link to="/homeLog">User Home</Link></li>
             <li><Link to="/game">Game</Link></li>
             <li><Link to="/scorePage">Score Page</Link></li>
+            <li><Link to="dashboard">Dashboard</Link></li>
             
           </ul>
         </nav>

@@ -19,6 +19,7 @@ class FlappyBirdObject {
     this._sprite = scene.add.sprite(50, 100, 'bird');
     this._sprite.setScale(0.2);
     this._velocity = 0;
+    this._scene = scene;
 
     this._sprite.setInteractive();
     this._sprite.on('pointerdown', () => {
@@ -130,6 +131,9 @@ class FlappyBirdGame {
     this._gameOverText = null;
     this._pipes = [];
 
+    this._startButton = null;
+    this._gameStarted = false;
+
     this._eventEmitter = new Phaser.Events.EventEmitter();
   }
 
@@ -148,11 +152,12 @@ class FlappyBirdGame {
   }
 
   _Init() {
-    for (let i = 0; i < 5; i += 1) {
-      this._pipes.push(new PipePairObject(this._scene, 500 + i * 250));
-    }
+    if (this._gameStarted)
+      for (let i = 0; i < 5; i += 1) {
+        this._pipes.push(new PipePairObject(this._scene, 500 + i * 250));
+      }
 
-    this._bird = new FlappyBirdObject(this._scene);
+    if (this._gameStarted) this._bird = new FlappyBirdObject(this._scene);
     this._gameOver = false;
     this._score = 0;
   }
@@ -213,6 +218,32 @@ class FlappyBirdGame {
       this
     );
 
+    this._startButton = this._scene.add.text(
+      _CONFIG_WIDTH / 2,
+      _CONFIG_HEIGHT / 2,
+      'Start Game',
+      {
+        font: '100px Roboto',
+        fill: '#FFFFFF',
+        align: 'center',
+        fixedWidth: _CONFIG_WIDTH,
+        shadow: {
+          offsetX: 2,
+          offsetY: 2,
+          color: '#000',
+          blur: 2,
+          fill: true,
+        },
+      }
+    );
+    this._startButton.setOrigin(0.5);
+
+    this._startButton.setInteractive();
+    this._startButton.on('pointerdown', () => {
+      this.startGame();
+      this._startButton.destroy();
+    });
+
     this._Init();
     this._DrawScore();
   }
@@ -229,9 +260,10 @@ class FlappyBirdGame {
 
     const timeElapsedInS = (currentFrame - this._previousFrame) / 1000.0;
 
-    this._bird.Update(timeElapsedInS, this._keys);
-
-    this._UpdatePipes(timeElapsedInS);
+    if (this._gameStarted) {
+      this._bird.Update(timeElapsedInS, this._keys);
+      this._UpdatePipes(timeElapsedInS);
+    }
     this._CheckGameOver();
 
     this._previousFrame = currentFrame;
@@ -239,9 +271,9 @@ class FlappyBirdGame {
 
   _CheckGameOver() {
     // Ground check
-    const birdAABB = this._bird.Bounds;
+    const birdAABB = this._bird?.Bounds;
 
-    if (birdAABB.top >= _GROUND_Y - 100) {
+    if (birdAABB?.top >= _GROUND_Y - 100) {
       this._GameOver();
       return;
     }
@@ -319,6 +351,14 @@ class FlappyBirdGame {
     };
 
     this._scoreText = this._scene.add.text(0, 0, text, style);
+  }
+
+  startGame() {
+    if (!this._gameStarted) {
+      this._gameStarted = true;
+      this._Init();
+      this._DrawScore();
+    }
   }
 
   getFinalScore() {
