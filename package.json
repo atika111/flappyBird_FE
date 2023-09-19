@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.9",
     "axios": "^1.5.0",
     "bitecs": "^0.3.40",
