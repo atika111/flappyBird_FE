@@ -22,15 +22,14 @@ const MyAuthProvider = ({ children }) => {
   async function fetchCurrentUser() {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/auth/current-user`
+        `${import.meta.env.VITE_SERVER_URL}/auth/current-user`,
+        { withCredentials: true }
       );
-      console.log(response);
-      //   if (response.ok) {
-      //     const userData = await response.json();
-      //     setUser(userData)
-      //   } else {
-      //     console.log('Failed to fetch the user')
-      //   }
+      if (response.status == 200) {
+        setUser(response.data);
+      } else {
+        console.log('Failed to fetch the user');
+      }
     } catch (error) {
       // Handle network errors
     }
