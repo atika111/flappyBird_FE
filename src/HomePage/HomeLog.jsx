@@ -13,6 +13,8 @@ const HomeLog = () => {
   }, []);
 
  
+  const userScore = score.find((item) => item.nickname === user?.nickname);
+
   return (
     <div className='main-box'>
       <div className='home-page'>
@@ -33,12 +35,12 @@ const HomeLog = () => {
                 </tr>
               </thead>
               <tbody>
-                {score.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.nickname}</td>
-                    <td>{item.score}</td>
+                {userScore && ( // Check if userScore exists
+                  <tr key={userScore.id}>
+                    <td>{userScore.nickname}</td>
+                    <td>{userScore.score}</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </section>
@@ -50,7 +52,7 @@ const HomeLog = () => {
           </section>
 
           <section className='start-button'>
-  <button className='log' onClick={handleLogOut}>
+  <button className='logout' onClick={handleLogOut}>
     Log out
   </button>
 </section>
