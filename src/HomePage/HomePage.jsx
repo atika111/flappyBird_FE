@@ -1,8 +1,16 @@
 import "./Home.css"
 import Login from '../Account/Login';
+import { useContext } from "react";
+import { AuthContext } from "../Context/MyAuthProvider";
+import HomeLog from "./HomeLog";
 
 const HomePage = () => {
+  const { user } = useContext(AuthContext)
 
+  
+  if (user) {
+    return <HomeLog />;
+  }
 
   return (
     <div className="main-box">

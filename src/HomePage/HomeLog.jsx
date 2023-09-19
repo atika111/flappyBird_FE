@@ -6,12 +6,13 @@ import { AuthContext } from '../Context/MyAuthProvider';
 
 const HomeLog = () => {
   const { score, fetchScore } = useContext(ScoreContext);
-  const { user } = useContext(AuthContext);
+  const { user, handleLogOut } = useContext(AuthContext);
 
   useEffect(() => {
     fetchScore();
   }, []);
 
+ 
   return (
     <div className='main-box'>
       <div className='home-page'>
@@ -43,10 +44,16 @@ const HomeLog = () => {
           </section>
 
           <section className='start-button'>
-            <Link className='log' to='/game'>
+            <Link className='log' to='/'>
               Lets Start!
             </Link>
           </section>
+
+          <section className='start-button'>
+  <button className='log' onClick={handleLogOut}>
+    Log out
+  </button>
+</section>
         </main>
         <footer>
           <p>&copy; 2023 Flappy Bird Mania</p>

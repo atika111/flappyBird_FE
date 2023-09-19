@@ -8,16 +8,18 @@ const MyScoreProvider = ({ children }) => {
 
   const fetchScore = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/scores`, {
-        withCredentials: true,
-      });
+      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/scores`, { withCredentials: true });
       const data = res.data;
       setScore(data);
     } catch (err) {
-      console.error(err);
+      if (err.response) {
+        console.error('Request failed with status:', err.response.status);
+        console.error('Error data:', err.response.data);
+      } else {
+        console.error('Request failed with an unknown error:', err);
+      }
     }
   };
-
   return (
     <ScoreContext.Provider value={{ score, fetchScore }}>
       {children}

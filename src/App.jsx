@@ -7,6 +7,7 @@ import ScorePage from './Game/ScorePage'
 import MyScoreProvider from './Context/MyScoreProvider'
 import MyAuthProvider from './Context/MyAuthProvider'
 import Dashboard from '../Admin/Dashboard'
+import PrivateRoute from './Private/PrivateRoute'
 
 function App() {
  
