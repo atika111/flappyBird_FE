@@ -3,12 +3,13 @@ import { Button } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ScoreContext } from "../Context/MyScoreProvider"
+import { AuthContext } from "../Context/MyAuthProvider"
 
 
 const HomeLog = () => {
 
   const { score, fetchScore } = useContext(ScoreContext)
-
+  const {user} = useContext(AuthContext)
 
   useEffect(() => {
     fetchScore()

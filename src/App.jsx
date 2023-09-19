@@ -5,12 +5,14 @@ import HomeLog from './HomePage/HomeLog'
 import Game from './Game/Game'
 import ScorePage from './Game/ScorePage'
 import MyScoreProvider from './Context/MyScoreProvider'
+import MyAuthProvider from './Context/MyAuthProvider'
 
 function App() {
  
 
   return (
     <>
+    <MyAuthProvider>
     <MyScoreProvider>
     <Navbar/>
     <Routes>
@@ -20,6 +22,7 @@ function App() {
     <Route path={"/scorePage"} element={<ScorePage/>}/>
     </Routes> 
     </MyScoreProvider>
+    </MyAuthProvider>
     </>
   )
 }

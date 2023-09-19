@@ -14,6 +14,7 @@
     "@mui/material": "^5.14.9",
     "axios": "^1.5.0",
     "bitecs": "^0.3.40",
+    "js-cookie": "^3.0.5",
     "phaser": "^3.60.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

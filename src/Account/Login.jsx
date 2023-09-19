@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -6,12 +6,27 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Signup from './Signup'; 
+import { AuthContext } from '../Context/MyAuthProvider';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSigninOpen, setSigninOpen] = useState(false);
+  const {setUser, user} = useContext(AuthContext)
+  const handleLogUser = async () => {
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, { email, password });
+      const data = res.data;
+      console.log(data);
+      Cookies.set('token', data.token, { expires: 7 });
+      setUser(data);
+    } catch (error) {
+    }
+  };
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -62,7 +77,7 @@ const Login = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={console.log()}>Log In</Button>
+          <Button onClick={handleLogUser}>Log In</Button>
         </DialogActions>
         <div className="account">Don't have an account?</div>
         <Button onClick={handleSigninButtonClick} >Sign Up</Button>
