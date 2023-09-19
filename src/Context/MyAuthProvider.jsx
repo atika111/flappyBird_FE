@@ -1,10 +1,11 @@
-import React, { createContext, useState } from 'react';
-import axios from 'axios';
+import React, { createContext, useState } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 const MyAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userList, setUserList] = useState();
 
   const handleLogOut = async () => {
     try {
@@ -28,7 +29,7 @@ const MyAuthProvider = ({ children }) => {
       if (response.status == 200) {
         setUser(response.data);
       } else {
-        console.log('Failed to fetch the user');
+        console.log("Failed to fetch the user");
       }
     } catch (error) {
       // Handle network errors
@@ -37,7 +38,14 @@ const MyAuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, handleLogOut, fetchCurrentUser }}
+      value={{
+        user,
+        setUser,
+        handleLogOut,
+        fetchCurrentUser,
+        userList,
+        setUserList,
+      }}
     >
       {children}
     </AuthContext.Provider>

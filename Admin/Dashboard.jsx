@@ -1,19 +1,35 @@
 import { Container } from "@mui/material";
-import DeleteUpdateBtns from "../Buttons/DeleteUpdateBtns";
-import UserList from "./UserList";
+import UserTable from "./UserTable";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { AuthContext } from "../src/Context/MyAuthProvider";
 
 function Dashboard() {
+    const{setUserList, userList} = useContext(AuthContext)
+
+  const fetchAllUsers = async () => {
+    const { data } = await axios.get("http://localhost:8080/users/all");
+    setUserList(data);
+    try {
+    } catch (error) {
+      console.log("error: ", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
   return (
     <Container
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        marginTop:5
       }}
     >
-      <UserList />
-      <DeleteUpdateBtns />
+      <UserTable />
     </Container>
   );
 }
