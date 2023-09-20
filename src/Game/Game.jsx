@@ -1,31 +1,31 @@
-import { useEffect, useRef, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Typography, Paper, Container, Box } from '@mui/material';
+import { Paper, Container, Box } from '@mui/material';
 import FlappyBirdGame from '../PhaserGame';
 import { AuthContext } from '../Context/MyAuthProvider';
 
 const Game = () => {
-  const gameContainerRef = useRef(null);
-  const { user } = useContext(AuthContext);
+  const { user, isUserLoaded } = useContext(AuthContext);
   let game;
 
   useEffect(() => {
-    game = new FlappyBirdGame('game');
+    if (isUserLoaded) {
+      game = new FlappyBirdGame('game');
 
-    gameContainerRef.current.focus();
-  }, []);
+      game.onGameOver(() => {
+        onGameOver();
+      });
+    }
+  }, [isUserLoaded]);
 
-  const onGameOver = (score) => {
-    game.onGameOver(() => {
-      const finalScore = game?.getFinalScore();
-      onGameOver(finalScore);
-    });
-    if (typeof score !== 'undefined')
+  const onGameOver = () => {
+    const finalScore = game?.getFinalScore();
+    if (typeof finalScore !== 'undefined')
       axios
         .post(
           import.meta.env.VITE_SERVER_URL + '/scores',
           {
-            score,
+            score: finalScore,
             date: new Date(),
             email: user.email,
             nickname: user.nickname,
@@ -46,7 +46,6 @@ const Game = () => {
         <Paper
           elevation={3}
           id='game'
-          ref={gameContainerRef}
           tabIndex={0}
           style={{ width: '960px', height: '540px' }}
         />
