@@ -337,6 +337,36 @@ class FlappyBirdGame {
     );
     this._gameOver = true;
 
+    this._startButton = this._scene.add.text(
+      _CONFIG_WIDTH / 2,
+      _CONFIG_HEIGHT / 2 + 100, // Adjust the Y position
+      'Play Again',
+      {
+        font: '100px Roboto',
+        fill: '#FFFFFF',
+        align: 'center',
+        fixedWidth: _CONFIG_WIDTH / 2,
+        backgroundColor: '#97A741',
+        borderRadius: '50px',
+        borderColor: '#2980b9',
+        borderThickness: 10,
+        shadow: {
+          offsetX: 2,
+          offsetY: 2,
+          color: '#000',
+          blur: 2,
+          fill: true,
+        },
+      }
+    );
+    this._startButton.setOrigin(0.5);
+
+    this._startButton.setInteractive();
+    this._startButton.on('pointerdown', () => {
+      this.restartGame(); // Add the restartGame function
+      this._startButton.destroy();
+    });
+
     this._eventEmitter.emit('gameover');
   }
 
@@ -364,6 +394,12 @@ class FlappyBirdGame {
       this._Init();
       this._DrawScore();
     }
+  }
+
+  restartGame() {
+    this._Destroy();
+    this._Init();
+    this._DrawScore();
   }
 
   getFinalScore() {
