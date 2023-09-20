@@ -218,18 +218,7 @@ class FlappyBirdGame {
 
     this._keys = {
       up: this._scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
-      r: this._scene.input.keyboard.addKey('R'),
     };
-
-    this._keys.r.on(
-      'down',
-      function () {
-        this._Destroy();
-        this._Init();
-        this._DrawScore();
-      },
-      this
-    );
 
     this._startButton = this._scene.add.text(
       _CONFIG_WIDTH / 2,

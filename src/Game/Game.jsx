@@ -52,9 +52,6 @@ const Game = () => {
           style={{ width: '960px', height: '540px' }}
         />
       </Box>
-      <Typography variant='h4' align='center' gutterBottom>
-        Press R to restart the game
-      </Typography>
     </Container>
   );
 };
