@@ -51,15 +51,15 @@ const HomeLog = () => {
           </section>
 
           <section className='start-button'>
-            <Link className='log' to='/'>
+            <Link className='log' to='/game'>
               Lets Start!
             </Link>
           </section>
 
           <section className='start-button'>
-            <button className='logout' onClick={handleLogOut}>
+            <Link className='logout' onClick={handleLogOut} to="/">
               Log out
-            </button>
+            </Link>
           </section>
         </main>
         <footer>
