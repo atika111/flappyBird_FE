@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -105,4 +105,4 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
   );
 }
 
-export default UpdateModal;
+export default memo(UpdateModal);
