@@ -13,14 +13,13 @@ const Game = () => {
     game = new FlappyBirdGame('game');
 
     gameContainerRef.current.focus();
+  }, []);
 
+  const onGameOver = (score) => {
     game.onGameOver(() => {
       const finalScore = game?.getFinalScore();
       onGameOver(finalScore);
     });
-  }, []);
-
-  const onGameOver = (score) => {
     if (typeof score !== 'undefined')
       axios
         .post(
