@@ -12,11 +12,12 @@ import { AuthContext } from "../src/Context/MyAuthProvider";
 import UpdateModal from "./UpdateModal";
 import { useState } from "react";
 import axios from "axios";
-import { async } from "regenerator-runtime";
 
 export default function UserTable() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const { userList } = useContext(AuthContext);
 
   const handleUpdateClick = (user) => {
     setSelectedUser(user);
@@ -26,7 +27,7 @@ export default function UserTable() {
   const handleUpdate = async (updatedUser) => {
     try {
       updatedUser.isAdmin = updatedUser.isAdmin === "true";
-      
+
       const { data } = await axios.put(
         `http://localhost:8080/users/${updatedUser._id}`,
         updatedUser
@@ -37,10 +38,9 @@ export default function UserTable() {
     }
   };
 
-  const { userList } = useContext(AuthContext);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="user table">
+      <Table sx={{ minWidth: 650}} aria-label="user table">
         <TableHead>
           <TableRow>
             <TableCell>Admin</TableCell>
@@ -67,7 +67,7 @@ export default function UserTable() {
               <TableCell align="right">{user.nickname}</TableCell>
               <TableCell align="right">
                 <img
-                  src={user.pictureUrl}
+                  src={user.picture}
                   alt={`${user.firstName}'s avatar`}
                   width="50"
                   height="50"

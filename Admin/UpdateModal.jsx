@@ -6,12 +6,13 @@ import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import UploadImage from "../src/Account/UploadImage";
 
 function UpdateModal({ user, isOpen, onClose, onUpdate }) {
   const [updatedUser, setUpdatedUser] = useState({ ...user });
 
   const handleInputChange = (e) => {
-    const { name, value} = e.target;
+    const { name, value } = e.target;
     setUpdatedUser({ ...updatedUser, [name]: value });
   };
 
@@ -43,12 +44,14 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
           Update User Information
         </DialogTitle>
         <DialogContent>
+            <UploadImage />
           <TextField
             label="Admin"
             name="isAdmin"
             value={updatedUser.isAdmin}
             onChange={handleInputChange}
             fullWidth
+            sx={{ marginTop: 2 }}
           />
           <TextField
             label="Email"
@@ -56,6 +59,7 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
             value={updatedUser.email}
             onChange={handleInputChange}
             fullWidth
+            sx={{ marginTop: 2 }}
           />
           <TextField
             label="First Name"
@@ -63,6 +67,7 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
             value={updatedUser.firstName}
             onChange={handleInputChange}
             fullWidth
+            sx={{ marginTop: 2 }}
           />
           <TextField
             label="Last Name"
@@ -70,6 +75,7 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
             value={updatedUser.lastName}
             onChange={handleInputChange}
             fullWidth
+            sx={{ marginTop: 2 }}
           />
           <TextField
             label="Nickname"
@@ -77,14 +83,16 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
             value={updatedUser.nickname}
             onChange={handleInputChange}
             fullWidth
+            sx={{ marginTop: 2 }}
           />
-          <TextField
+          {/* <TextField
             label="Picture"
             name="pictureUrl"
             value={updatedUser.pictureUrl}
             onChange={handleInputChange}
             fullWidth
-          />
+            sx={{ marginTop: 2 }}
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>

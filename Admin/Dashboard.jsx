@@ -5,7 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../src/Context/MyAuthProvider";
 
 function Dashboard() {
-    const{setUserList, userList} = useContext(AuthContext)
+    const{setUserList} = useContext(AuthContext)
 
   const fetchAllUsers = async () => {
     const { data } = await axios.get("http://localhost:8080/users/all");
