@@ -17,7 +17,7 @@ const _GROUND_Y = _CONFIG_HEIGHT;
 class FlappyBirdObject {
   constructor(scene) {
     this._sprite = scene.add.sprite(50, 100, 'bird');
-    this._sprite.setScale(0.2);
+    this._sprite.setScale(1.5);
     this._velocity = 0;
     this._scene = scene;
 
@@ -53,7 +53,19 @@ class FlappyBirdObject {
   }
 
   get Bounds() {
-    return this._sprite.getBounds();
+    const bounds = this._sprite.getBounds();
+    return bounds;
+  }
+
+  getCustomBounds(width, height) {
+    const bounds = this._sprite.getBounds();
+    const offsetX = (this._sprite.width - width) / 2;
+    const offsetY = (this._sprite.height - height) / 2;
+
+    bounds.setSize(width, height);
+    bounds.setPosition(bounds.x + offsetX, bounds.y + offsetY);
+
+    return bounds;
   }
 
   _ApplyGravity(timeElapsed) {
@@ -96,6 +108,7 @@ class PipePairObject {
     const b1 = this._sprite1.getBounds();
     const b2 = this._sprite2.getBounds();
     b2.y -= this._sprite2.height;
+
     return (
       Phaser.Geom.Intersects.RectangleToRectangle(b1, aabb) ||
       Phaser.Geom.Intersects.RectangleToRectangle(b2, aabb)
@@ -193,7 +206,7 @@ class FlappyBirdGame {
     this._scene = scene;
     this._scene.load.image('sky', SERVER_URL + '/background.jpeg');
     this._scene.load.image('pipe', SERVER_URL + '/pipe.png');
-    this._scene.load.image('bird', SERVER_URL + '/flap.png');
+    this._scene.load.image('bird', SERVER_URL + '/bird.png');
   }
 
   _OnCreate() {
@@ -226,7 +239,11 @@ class FlappyBirdGame {
         font: '100px Roboto',
         fill: '#FFFFFF',
         align: 'center',
-        fixedWidth: _CONFIG_WIDTH,
+        fixedWidth: _CONFIG_WIDTH / 2,
+        backgroundColor: '#97A741',
+        borderRadius: '50px',
+        borderColor: '#2980b9',
+        borderThickness: 10,
         shadow: {
           offsetX: 2,
           offsetY: 2,
@@ -270,8 +287,7 @@ class FlappyBirdGame {
   }
 
   _CheckGameOver() {
-    // Ground check
-    const birdAABB = this._bird?.Bounds;
+    const birdAABB = this._bird?.getCustomBounds(60, 50);
 
     if (birdAABB?.top >= _GROUND_Y - 100) {
       this._GameOver();
