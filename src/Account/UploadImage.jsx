@@ -4,13 +4,18 @@ import Avatar from "@mui/material/Avatar";
 function UploadImage({ setAvatarImage }) {
   const [avatarImageUrl, setAvatarImageUrl] = useState(null);
 
+  const defaultImageUrl =
+    "https://res.cloudinary.com/dwiiz8ilo/image/upload/t_rounded_image/cld-sample.jpg"
   const handleAvatarClick = () => {
     document.getElementById("avatar-upload").click();
   };
 
   const handleAvatarUpload = (e) => {
     const selectedImage = e.target.files[0];
-    console.log('selectedImage: ', selectedImage);
+    if (!selectedImage) {
+        setAvatarImage(defaultImageUrl)
+    }
+    console.log("selectedImage: ", selectedImage);
     setAvatarImageUrl(URL.createObjectURL(selectedImage));
     setAvatarImage(selectedImage);
   };
@@ -26,7 +31,7 @@ function UploadImage({ setAvatarImage }) {
           cursor: "pointer",
         }}
         alt="User"
-        src={avatarImageUrl || "/default-image.jpg"}
+        src={avatarImageUrl}
         onClick={handleAvatarClick}
       />
 

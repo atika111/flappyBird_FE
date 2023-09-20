@@ -22,7 +22,7 @@ const Signup = ({ openSignup, onClose }) => {
 
   const handleSignUser = async (e) => {
     e.preventDefault();
-
+    
     const newUser = new FormData();
     newUser.append("email", email);
     newUser.append("password", password);
@@ -31,7 +31,7 @@ const Signup = ({ openSignup, onClose }) => {
     newUser.append("lastName", lastName);
     newUser.append("nickname", nickname);
     newUser.append("avatar", avatarImage);
-  
+
     try {
       const response = await axios.post(
         import.meta.env.VITE_SERVER_URL + "/auth/signup",
@@ -58,7 +58,7 @@ const Signup = ({ openSignup, onClose }) => {
       <Dialog open={openSignup} onClose={onClose}>
         <DialogTitle>SignUp</DialogTitle>
         <DialogContent>
-          <UploadImage setAvatarImage={setAvatarImage}/>
+          <UploadImage setAvatarImage={setAvatarImage} />
           <TextField
             autoFocus
             margin="dense"
