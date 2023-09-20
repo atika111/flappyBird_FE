@@ -15,7 +15,6 @@ function App() {
 
   useEffect(() => {
     const token = Cookies.get();
-    console.log(token);
     if (token) {
       fetchCurrentUser(token);
     }

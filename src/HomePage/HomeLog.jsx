@@ -12,8 +12,12 @@ const HomeLog = () => {
     fetchScore();
   }, []);
 
- 
-  const userScore = score.find((item) => item.nickname === user?.nickname);
+  const userScores = score
+    .filter((item) => item.nickname === user?.nickname)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5);
+
+  console.log(userScores);
 
   return (
     <div className='main-box'>
@@ -35,27 +39,28 @@ const HomeLog = () => {
                 </tr>
               </thead>
               <tbody>
-                {userScore && ( // Check if userScore exists
-                  <tr key={userScore.id}>
-                    <td>{userScore.nickname}</td>
-                    <td>{userScore.score}</td>
-                  </tr>
-                )}
+                {userScores.length !== 0 &&
+                  userScores.map((s) => (
+                    <tr key={s._id}>
+                      <td>{s.nickname}</td>
+                      <td>{s.score}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </section>
 
           <section className='start-button'>
-            <Link className='log' to='/'>
+            <Link className='log' to='/game'>
               Lets Start!
             </Link>
           </section>
 
           <section className='start-button'>
-  <button className='logout' onClick={handleLogOut}>
-    Log out
-  </button>
-</section>
+            <Link className='logout' onClick={handleLogOut} to="/">
+              Log out
+            </Link>
+          </section>
         </main>
         <footer>
           <p>&copy; 2023 Flappy Bird Mania</p>
