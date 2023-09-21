@@ -9,7 +9,7 @@ import axios from "axios";
 import UploadImage from "./UploadImage";
 
 const Signup = ({ openSignup, onClose }) => {
-  const [error, setError] = useState([]);
+  const [error, setError] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repPassword, setRepPassword] = useState("");
@@ -18,11 +18,9 @@ const Signup = ({ openSignup, onClose }) => {
   const [nickname, setNickName] = useState("");
   const [avatarImage, setAvatarImage] = useState(null);
 
-  console.log(error);
-
   const handleSignUser = async (e) => {
     e.preventDefault();
-    
+
     const newUser = new FormData();
     newUser.append("email", email);
     newUser.append("password", password);
@@ -44,11 +42,20 @@ const Signup = ({ openSignup, onClose }) => {
       setName("");
       setLastName("");
       setNickName("");
+      setError({}); 
     } catch (error) {
       if (error?.response) {
-        setError(error?.response?.data);
+        const responseData = error.response.data;
+        if (responseData.errors) {
+          setError(responseData.errors);
+        } else {
+          if (responseData.message) {
+            setError({ password: responseData.message });
+          }
+        }
+        console.log("Server error response:", responseData);
       } else {
-        console.log(error);
+        console.log("Error:", error);
       }
     }
   };
@@ -58,69 +65,100 @@ const Signup = ({ openSignup, onClose }) => {
       <Dialog open={openSignup} onClose={onClose}>
         <DialogTitle>SignUp</DialogTitle>
         <DialogContent>
-          <UploadImage setAvatarImage={setAvatarImage} />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Password"
-            type="password"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Confirm password"
-            type="password"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setRepPassword(e.target.value)}
-            required
-          />
-          {error && <div className="error">{error}</div>}
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Last name"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Nick name"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setNickName(e.target.value)}
-            required
-          />
-        </DialogContent>
+  <UploadImage setAvatarImage={setAvatarImage} />
+  <TextField
+    autoFocus
+    margin="dense"
+    label="Email Address"
+    type="email"
+    fullWidth
+    variant="standard"
+    onChange={(e) => setEmail(e.target.value)}
+    required
+  />
+  {error.email && (
+    <div className="error">
+      <p>{error.email}</p>
+    </div>
+  )}
+  <TextField
+    autoFocus
+    margin="dense"
+    label="Password"
+    type="password"
+    fullWidth
+    variant="standard"
+    onChange={(e) => setPassword(e.target.value)}
+    required
+  />
+  {error.password && (
+    <div className="error">
+      <p>{error.password}</p>
+    </div>
+  )}
+  <TextField
+    autoFocus
+    margin="dense"
+    label="Confirm password"
+    type="password"
+    fullWidth
+    variant="standard"
+    onChange={(e) => setRepPassword(e.target.value)}
+    required
+  />
+  {error.repPassword && (
+    <div className="error">
+      <p>{error.repPassword}</p>
+          {error}
+    </div>
+  )}
+  <TextField
+    autoFocus
+    margin="dense"
+    label="Name"
+    type="text"
+    fullWidth
+    variant="standard"
+    onChange={(e) => setName(e.target.value)}
+    required
+  />
+  {error.firstName && (
+    <div className="error">
+      <p>{error.firstName}</p>
+    </div>
+  )}
+  <TextField
+    autoFocus
+    margin="dense"
+    label="Last name"
+    type="text"
+    fullWidth
+    variant="standard"
+    onChange={(e) => setLastName(e.target.value)}
+    required
+  />
+  {error.lastName && (
+    <div className="error">
+      <p>{error.lastName}</p>
+    </div>
+  )}
+  <TextField
+    autoFocus
+    margin="dense"
+    label="Nick name"
+    type="text"
+    fullWidth
+    variant="standard"
+    onChange={(e) => setNickName(e.target.value)}
+    required
+  />
+  {error.nickname && (
+    <div className="error">
+      <p>{error.nickname}</p>
+    </div>
+  )}
+</DialogContent>
+
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
           <Button onClick={handleSignUser} onClose={onClose}>
