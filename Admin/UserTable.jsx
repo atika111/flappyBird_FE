@@ -13,7 +13,7 @@ import UpdateModal from "./UpdateModal";
 import { useUserContext } from "../src/Context/MyUserProvider";
 
 export default function UserTable() {
-  const { state, dispatch, isUpdateModalOpen, onOpen} =
+  const { isUpdateModalOpen, onOpen} =
     useUserContext();
   const { userList } = useContext(AuthContext);
 

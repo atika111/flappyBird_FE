@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useReducer,} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -7,28 +7,24 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import UploadImage from "./UploadImage";
+import { userReducer, initialState } from "../../Reducers/userReducer";
 
 const Signup = ({ openSignup, onClose }) => {
-  const [error, setError] = useState({});
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repPassword, setRepPassword] = useState("");
-  const [firstName, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [nickname, setNickName] = useState("");
-  const [avatarImage, setAvatarImage] = useState(null);
+  const [state, dispatch] = useReducer(userReducer, initialState);
 
   const handleSignUser = async (e) => {
     e.preventDefault();
+    dispatch({ type: "RESET_ERROR" });
+    dispatch({ type: "SET_LOADING", isLoading: true });
 
     const newUser = new FormData();
-    newUser.append("email", email);
-    newUser.append("password", password);
-    newUser.append("repPassword", repPassword);
-    newUser.append("firstName", firstName);
-    newUser.append("lastName", lastName);
-    newUser.append("nickname", nickname);
-    newUser.append("avatar", avatarImage);
+    newUser.append("email", state.email);
+    newUser.append("password", state.password);
+    newUser.append("repPassword", state.repPassword);
+    newUser.append("firstName", state.firstName);
+    newUser.append("lastName", state.lastName);
+    newUser.append("nickname", state.nickname);
+    newUser.append("avatar", state.avatarImage);
 
     try {
       const response = await axios.post(
@@ -36,28 +32,36 @@ const Signup = ({ openSignup, onClose }) => {
         newUser
       );
       console.log(response.data);
-      setEmail("");
-      setPassword("");
-      setRepPassword("");
-      setName("");
-      setLastName("");
-      setNickName("");
-      setError({}); 
+      dispatch({ type: "RESET_ERROR" });
+      onClose();
     } catch (error) {
       if (error?.response) {
         const responseData = error.response.data;
         if (responseData.errors) {
-          setError(responseData.errors);
+          dispatch({ type: "SET_ERROR", error: responseData.errors });
         } else {
           if (responseData.message) {
-            setError({ password: responseData.message });
+            dispatch({
+              type: "SET_ERROR",
+              error: { password: responseData.message },
+            });
           }
         }
         console.log("Server error response:", responseData);
       } else {
         console.log("Error:", error);
       }
+    } finally {
+      dispatch({ type: "SET_LOADING", isLoading: false });
     }
+  };
+
+  const handleInputChange = (e) => {
+    dispatch({
+      type: "SET_FIELD",
+      field: e.target.name,
+      value: e.target.value,
+    });
   };
 
   return (
@@ -65,104 +69,126 @@ const Signup = ({ openSignup, onClose }) => {
       <Dialog open={openSignup} onClose={onClose}>
         <DialogTitle>SignUp</DialogTitle>
         <DialogContent>
-  <UploadImage setAvatarImage={setAvatarImage} />
-  <TextField
-    autoFocus
-    margin="dense"
-    label="Email Address"
-    type="email"
-    fullWidth
-    variant="standard"
-    onChange={(e) => setEmail(e.target.value)}
-    required
-  />
-  {error.email && (
-    <div className="error">
-      <p>{error.email}</p>
-    </div>
-  )}
-  <TextField
-    autoFocus
-    margin="dense"
-    label="Password"
-    type="password"
-    fullWidth
-    variant="standard"
-    onChange={(e) => setPassword(e.target.value)}
-    required
-  />
-  {error.password && (
-    <div className="error">
-      <p>{error.password}</p>
-    </div>
-  )}
-  <TextField
-    autoFocus
-    margin="dense"
-    label="Confirm password"
-    type="password"
-    fullWidth
-    variant="standard"
-    onChange={(e) => setRepPassword(e.target.value)}
-    required
-  />
-  {error.repPassword && (
-    <div className="error">
-      <p>{error.repPassword}</p>
-          {error}
-    </div>
-  )}
-  <TextField
-    autoFocus
-    margin="dense"
-    label="Name"
-    type="text"
-    fullWidth
-    variant="standard"
-    onChange={(e) => setName(e.target.value)}
-    required
-  />
-  {error.firstName && (
-    <div className="error">
-      <p>{error.firstName}</p>
-    </div>
-  )}
-  <TextField
-    autoFocus
-    margin="dense"
-    label="Last name"
-    type="text"
-    fullWidth
-    variant="standard"
-    onChange={(e) => setLastName(e.target.value)}
-    required
-  />
-  {error.lastName && (
-    <div className="error">
-      <p>{error.lastName}</p>
-    </div>
-  )}
-  <TextField
-    autoFocus
-    margin="dense"
-    label="Nick name"
-    type="text"
-    fullWidth
-    variant="standard"
-    onChange={(e) => setNickName(e.target.value)}
-    required
-  />
-  {error.nickname && (
-    <div className="error">
-      <p>{error.nickname}</p>
-    </div>
-  )}
-</DialogContent>
-
+          <UploadImage
+            setAvatarImage={(image) =>
+              dispatch({
+                type: "SET_FIELD",
+                field: "avatarImage",
+                value: image,
+              })
+            }
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            name="email"
+            type="email"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+            required
+            value={state.email}
+          />
+          {state.error.email && (
+            <div className="error">
+              <p>{state.error.email}</p>
+            </div>
+          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Password"
+            name="password"
+            type="password"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+            required
+            value={state.password}
+          />
+          {state.error.password && (
+            <div className="error">
+              <p>{state.error.password}</p>
+            </div>
+          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Confirm password"
+            name="repPassword"
+            type="password"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+            required
+            value={state.repPassword}
+          />
+          {state.error.repPassword && (
+            <div className="error">
+              <p>{state.error.repPassword}</p>
+            </div>
+          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Name"
+            name="firstName"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+            required
+            value={state.firstName}
+          />
+          {state.error.firstName && (
+            <div className="error">
+              <p>{state.error.firstName}</p>
+            </div>
+          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Last name"
+            name="lastName"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+            required
+            value={state.lastName}
+          />
+          {state.error.lastName && (
+            <div className="error">
+              <p>{state.error.lastName}</p>
+            </div>
+          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Nick name"
+            name="nickname"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+            required
+            value={state.nickname}
+          />
+          {state.error.nickname && (
+            <div className="error">
+              <p>{state.error.nickname}</p>
+            </div>
+          )}
+        </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSignUser} onClose={onClose}>
-            Sign Up
+          <Button
+            onClick={handleSignUser}
+            onClose={onClose}
+            disabled={state.isLoading}
+          >
+            {state.isLoading ? "Signing Up..." : "Sign Up"}
           </Button>
         </DialogActions>
       </Dialog>

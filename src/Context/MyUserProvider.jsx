@@ -1,5 +1,4 @@
-import React, { createContext, useReducer, useContext, useState} from "react";
-import UserReducer from "../../Reducers/userReducer";
+import React, { createContext, useContext, useState} from "react";
 import axios from "axios";
 
 const UserContext = createContext();
@@ -9,11 +8,7 @@ export const useUserContext = () => {
 };
 
 const MyUserProvider = ({ children }) => {
-  const initialState = {
-    userList: [],
-  };
 
-  const [state, dispatch] = useReducer(UserReducer, initialState);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -44,8 +39,6 @@ const MyUserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        state,
-        dispatch,
         isUpdateModalOpen,
         selectedUser,
         onClose,
