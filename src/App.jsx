@@ -24,10 +24,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route path={'/'} element={<HomePage />} />
-        <Route path={'/homeLog'} element={<HomeLog />} />
-        <Route path={'/game'} element={<Game />} />
-        <Route path={'/scorePage'} element={<ScorePage />} />
-        <Route path={'/dashboard'} element={<Dashboard />} />
+        <Route path={'/homeLog'} element={<PrivateRoute><HomeLog /></PrivateRoute>} />
+        <Route path={'/game'} element={<PrivateRoute><Game /></PrivateRoute>} />
+        <Route path={'/scorePage'} element={<PrivateRoute><ScorePage /></PrivateRoute>} />
+        <Route path={'/dashboard'} element={<PrivateRoute adminOnly><Dashboard /></PrivateRoute>} />
       </Routes>
     </>
   );
