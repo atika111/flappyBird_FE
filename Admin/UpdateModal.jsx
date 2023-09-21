@@ -7,9 +7,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import UploadImage from "../src/Account/UploadImage";
+import { useUserContext } from "../src/Context/MyUserProvider";
 
-function UpdateModal({ user, isOpen, onClose, onUpdate }) {
-  const [updatedUser, setUpdatedUser] = useState({ ...user });
+function UpdateModal() {
+  const { isUpdateModalOpen, selectedUser, onClose, handleUpdate } = useUserContext();
+  
+  const [updatedUser, setUpdatedUser] = useState({ ...selectedUser });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -17,13 +20,13 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
   };
 
   const handleSubmit = () => {
-    onUpdate(updatedUser);
+    handleUpdate(updatedUser);
     onClose();
   };
 
   return (
     <Modal
-      open={isOpen}
+      open={isUpdateModalOpen}
       onClose={onClose}
       aria-labelledby="update-modal-title"
       aria-describedby="update-modal-description"
@@ -44,7 +47,7 @@ function UpdateModal({ user, isOpen, onClose, onUpdate }) {
           Update User Information
         </DialogTitle>
         <DialogContent>
-            <UploadImage />
+          <UploadImage />
           <TextField
             label="Admin"
             name="isAdmin"

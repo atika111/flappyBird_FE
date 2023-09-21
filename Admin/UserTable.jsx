@@ -10,37 +10,16 @@ import DeleteUpdateBtn from "../Buttons/DeleteUpdateBtn";
 import { useContext } from "react";
 import { AuthContext } from "../src/Context/MyAuthProvider";
 import UpdateModal from "./UpdateModal";
-import { useState } from "react";
-import axios from "axios";
+import { useUserContext } from "../src/Context/MyUserProvider";
 
 export default function UserTable() {
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-
+  const { state, dispatch, isUpdateModalOpen, onOpen} =
+    useUserContext();
   const { userList } = useContext(AuthContext);
-
-  const handleUpdateClick = (user) => {
-    setSelectedUser(user);
-    setIsUpdateModalOpen(true);
-  };
-
-  const handleUpdate = async (updatedUser) => {
-    try {
-      updatedUser.isAdmin = updatedUser.isAdmin === "true";
-
-      const { data } = await axios.put(
-        `http://localhost:8080/users/${updatedUser._id}`,
-        updatedUser
-      );
-      console.log(data);
-    } catch (error) {
-      console.log("error: ", error.message);
-    }
-  };
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650}} aria-label="user table">
+      <Table sx={{ minWidth: 650 }} aria-label="user table">
         <TableHead>
           <TableRow>
             <TableCell>Admin</TableCell>
@@ -76,26 +55,14 @@ export default function UserTable() {
               <TableCell align="right">
                 <DeleteUpdateBtn
                   userId={user._id}
-                  onUpdateUser={() => {
-                    handleUpdateClick(user);
-                  }}
+                  onUpdateUser={() => onOpen(user)}
                 />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {isUpdateModalOpen && (
-        <UpdateModal
-          user={selectedUser}
-          isOpen={isUpdateModalOpen}
-          onClose={() => {
-            setIsUpdateModalOpen(false);
-            setSelectedUser(null);
-          }}
-          onUpdate={handleUpdate}
-        />
-      )}
+      {isUpdateModalOpen && <UpdateModal />}
     </TableContainer>
   );
 }
