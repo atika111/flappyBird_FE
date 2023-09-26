@@ -8,7 +8,9 @@ const MyScoreProvider = ({ children }) => {
 
   const fetchScore = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/scores`, { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/scores`, {
+        withCredentials: true,
+      });
       const data = res.data;
       setScore(data);
     } catch (err) {
@@ -20,6 +22,7 @@ const MyScoreProvider = ({ children }) => {
       }
     }
   };
+
   return (
     <ScoreContext.Provider value={{ score, fetchScore }}>
       {children}

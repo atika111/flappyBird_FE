@@ -17,8 +17,6 @@ const HomeLog = () => {
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
 
-  console.log(userScores);
-
   return (
     <div className='main-box'>
       <div className='home-page'>
@@ -57,7 +55,7 @@ const HomeLog = () => {
           </section>
 
           <section className='start-button'>
-            <Link className='logout' onClick={handleLogOut} to="/">
+            <Link className='logout' onClick={handleLogOut} to='/'>
               Log out
             </Link>
           </section>
