@@ -228,7 +228,8 @@ class FlappyBirdGame {
         font: '100px Roboto',
         fill: '#FFFFFF',
         align: 'center',
-        fixedWidth: _CONFIG_WIDTH / 2,
+        className: 'start-button',
+        fixedWidth: _CONFIG_WIDTH / 2 + 200,
         backgroundColor: '#97A741',
         borderRadius: '50px',
         borderColor: '#2980b9',
@@ -345,7 +346,8 @@ class FlappyBirdGame {
         font: '100px Roboto',
         fill: '#FFFFFF',
         align: 'center',
-        fixedWidth: _CONFIG_WIDTH / 2,
+        className: 'start-button',
+        fixedWidth: _CONFIG_WIDTH / 2 + 200,
         backgroundColor: '#97A741',
         borderRadius: '50px',
         borderColor: '#2980b9',
@@ -371,8 +373,7 @@ class FlappyBirdGame {
   }
 
   _DrawScore() {
-    const text = 'Score: 0';
-    const style = {
+    this._scoreText = this._scene.add.text(0, 0, '', {
       font: '40px Roboto',
       fill: '#FFFFFF',
       align: 'center',
@@ -383,9 +384,7 @@ class FlappyBirdGame {
         blur: 2,
         fill: true,
       },
-    };
-
-    this._scoreText = this._scene.add.text(0, 0, text, style);
+    });
   }
 
   startGame() {
