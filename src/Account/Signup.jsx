@@ -69,11 +69,11 @@ const Signup = ({ openSignup, onClose }) => {
       <Dialog open={openSignup} onClose={onClose}>
         <DialogTitle>SignUp</DialogTitle>
         <DialogContent>
-          {typeof state.error === 'string' && (
+          {/* {typeof state.error === 'string' && (
             <div className='error'>
               <p>{state.error}</p>
             </div>
-          )}
+          )} */}
           <UploadImage
             setAvatarImage={(image) =>
               dispatch({
